@@ -2,16 +2,22 @@
 
 import curses
 
+from .board import Board
+from .renderer import render
+from .input import process_input
+
 
 def main(stdscr) -> None:
     rows, columns = stdscr.getmaxyx()
 
-    stdscr.addstr(rows // 2, columns // 2, "x")
-    stdscr.refresh()
+    width = 50
+    height = 50
+    board = Board(width, height)
+    board[1, 1] = 1
 
-    stdscr.addstr(rows // 2, columns // 2, str(stdscr.getch()))
-    stdscr.getch()
-    stdscr.refresh()
+    while True:
+        render(stdscr, board)
+        process_input(stdscr, board)
 
 
 curses.wrapper(main)
